@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- jquery cdn -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="Function.js"></script>
+    <link rel="stylesheet" href="Style.css" />
+    <style>
+      
+    </style>
+  </head>
+
+  <body>
+    <!-- div#stage>img#player -->
+    <div id="stage">
+      <img id="player" src="00.IMG\Tank.png" alt="" />
+      <img class="enemy" id="enemy" src="00.IMG\Tank.png" alt="" />
+      <div id="gameOverScene">
+        <br />Game Over
+        <br />
+        <button onclick="gameReset()">재시작</button>
+      </div>
+    </div>
+
+    <script>
+      const stage = $("#stage");
+      const player = $("#player");
+      const enemy = $(".enemy");
+
+      let isGameOver = false;
+      let jumpCnt = 0;
+      let speed = 3;
+      let playerSpeed = 20;
+      let bulletSpeed = 20;
+      let lastBulletTime = 0;
+      let fireRate = 1000;
+      //발사
+      let playerDirection = "up"; // 'up', 'right', 'down', 'left' 중 하나가 될 수 있습니다.
+
+     
+    </script>
+  </body>
+</html>
