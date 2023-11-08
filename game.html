@@ -20,7 +20,6 @@
     <!-- div#stage>img#player -->
     <div id="stage">
       <img id="player" src="00.IMG\Tank.png" alt="" />
-      <img class="enemy" id="enemy" src="00.IMG\Tank.png" alt="" />
       <div id="gameOverScene">
         <br />Game Over
         <br />
@@ -40,8 +39,218 @@
       let bulletSpeed = 20;
       let lastBulletTime = 0;
       let fireRate = 1000;
-      //발사
-      let playerDirection = "up"; // 'up', 'right', 'down', 'left' 중 하나가 될 수 있습니다.
+      let playerDirection = "up";
+      let enmyCnt = 0;
+      let enemyMax = 1;
+      const turnTime = 5000;
+
+      function getRandomValue(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function setNewDirection(enemy) {
+        // 0 = 상, 1 = 우, 2 = 하, 3 = 좌
+        const direction = getRandomValue(0, 3);
+        enemy.data("direction", direction);
+      }
+
+      function moveEnemy(enemy) {
+        const stepSize = 40; // 한 번에 이동할 픽셀 크기
+        const moveTime = 500;
+        // 방향을 유지하는 시간 (ms)
+        let posX = parseInt(enemy.css("left"));
+        let posY = parseInt(enemy.css("top"));
+
+        // 이동 로직을 여기에 추가하세요 (아래는 예시 로직입니다)
+        switch (enemy.data("direction")) {
+          case 0: // 상
+            posY -= stepSize;
+            enemy.css("transform", "rotate(0deg)");
+            break;
+          case 1: // 우
+            posX += stepSize;
+            enemy.css("transform", "rotate(90deg)");
+            break;
+          case 2: // 하
+            posY += stepSize;
+            enemy.css("transform", "rotate(180deg)");
+            break;
+          case 3: // 좌
+            posX -= stepSize;
+            enemy.css("transform", "rotate(-90deg)");
+            break;
+        }
+
+        // stage의 범위 내에서만 이동하도록 합니다
+        if (
+          posX < 0 ||
+          posY < 0 ||
+          posX > stage.width() - enemy.width() ||
+          posY > stage.height() - enemy.height()
+        ) {
+          setNewDirection(enemy); // 벽에 부딪히면 새 방향 설정
+        } else {
+          enemy.css({ top: posY, left: posX }); // 새 위치 설정
+        }
+
+        // 일정 시간 후에 방향 재설정
+        setTimeout(function () {
+          moveEnemy(enemy);
+        }, moveTime);
+      }
+      // 적 탱크를 생성하고 무작위로 위치를 지정하는 함수
+      function spawnEnemy() {
+        if (enmyCnt >= enemyMax) {
+          // 이미 5마리의 적이 활성화되어 있으면 새로운 적을 생성하지 않음
+          return;
+        }
+        const enemy = $('<img src="00.IMG/Tank.png" class="enemy">');
+
+        // 4모서리 중 하나를 랜덤으로 선택하여 적을 배치합니다.
+        const corner = getRandomValue(1, 4);
+        let position = {};
+
+        switch (corner) {
+          case 1: // 왼쪽 위
+            position = { top: "0px", left: "0px" };
+            break;
+          case 2: // 오른쪽 위
+            position = { top: "0px", right: "0px" };
+            break;
+          case 3: // 왼쪽 아래
+            position = { bottom: "0px", left: "0px" };
+            break;
+          case 4: // 오른쪽 아래
+            position = { bottom: "0px", right: "0px" };
+            break;
+        }
+        setNewDirection(enemy);
+        enemy.css(position);
+        stage.append(enemy);
+        enmyCnt++;
+        moveEnemy(enemy);
+        setRandomFiring(enemy);
+      }
+
+      // 2초마다 적 탱크를 생성하는 함수를 호출합니다.
+      setInterval(spawnEnemy, 3000);
+      setInterval(function () {
+        $(".enemy").each(function () {
+          setNewDirection($(this));
+        });
+      }, turnTime);
+
+      //적 공격
+      function fireBullet(enemy) {
+        const enemyBullet = $('<div class="enemyBullet"></div>');
+        const boom = $('<div class="boom"></div>');
+        const enemyPos = enemy.position();
+
+        const enemyWidth = enemy.width();
+        const enemyHeight = enemy.height();
+        const direction = enemy.data("direction");
+
+        // 탱크의 중앙에서 발사되도록 조정
+        enemyBullet.css({
+          left: enemyPos.left + enemyWidth / 4 - 4, // bullet의 절반 너비를 고려하여 중앙에서 시작
+          top: enemyPos.top + enemyWidth / 2 - 5, // bullet의 절반 높이를 고려하여 중앙에서 시작
+          transform: `rotate(${
+            direction === 0
+              ? "-90deg"
+              : direction === 1
+              ? "0deg"
+              : direction === 2
+              ? "90deg"
+              : "180deg"
+          })`,
+        });
+
+        stage.append(enemyBullet);
+
+        let bulletVelocity = {
+          left: 0,
+          top: 0,
+        };
+
+        switch (direction) {
+          case 0:
+            enemyBullet.css({
+              left: enemyPos.left + enemyWidth / 2 - enemyBullet.width() / 2,
+              top: enemyPos.top - enemyBullet.height(), // 이 부분이 탱크의 상단 방향으로 총알을 조금 더 올립니다.
+              transform: "rotate(-90deg)", // 이 방향을 맞춥니다.
+            });
+            bulletVelocity.top = -bulletSpeed;
+            break;
+          case 1:
+            enemyBullet.css({
+              left: enemyPos.left + enemyWidth,
+              top: enemyPos.top + enemyHeight / 2 - 6,
+            });
+            bulletVelocity.left = bulletSpeed;
+            break;
+          case 2:
+            enemyBullet.css({
+              left: enemyPos.left + enemyWidth / 2 - enemyBullet.width() / 2,
+              top: enemyPos.top + enemyHeight,
+              transform: "rotate(90deg)",
+            });
+            bulletVelocity.top = bulletSpeed;
+            break;
+          case 3:
+            enemyBullet.css({
+              left: enemyPos.left - enemyBullet.width(),
+              top: enemyPos.top + enemyHeight / 2 - 6,
+              transform: "rotate(180deg)",
+            });
+            bulletVelocity.left = -bulletSpeed;
+            break;
+        }
+
+        function moveBullet() {
+          // stage의 크기를 넘어가면 삭제
+          if (
+            enemyBullet.position().top < 0 ||
+            enemyBullet.position().left < 0 ||
+            enemyBullet.position().top > 780 ||
+            enemyBullet.position().left > 780
+          ) {
+            boom.css({
+              left: enemyBullet.position().left - 32, // 폭발 이미지가 bullet 중앙에 위치하도록 조정
+              top: enemyBullet.position().top - 32, // 폭발 이미지가 bullet 중앙에 위치하도록 조정
+            });
+
+            stage.append(boom);
+
+            enemyBullet.remove();
+
+            setTimeout(function () {
+              boom.remove();
+            }, 600); // 폭발 GIF 애니메이션 지속 시간
+            return;
+          }
+
+          enemyBullet.css({
+            left: "+=" + bulletVelocity.left,
+            top: "+=" + bulletVelocity.top,
+          });
+
+          // 50ms 후에 다시 bullet 위치 업데이트
+          setTimeout(moveBullet, 30);
+        }
+
+        moveBullet();
+      }
+
+      function setRandomFiring(enemy) {
+        const minFireDelay = 1500;
+        const maxFireDelay = 3000;
+        setTimeout(function () {
+          if (stage.has(enemy).length) {
+            fireBullet(enemy);
+            setRandomFiring(enemy); // 다음 포탄 발사를 위한 랜덤 시간 설정
+          }
+        }, getRandomValue(minFireDelay, maxFireDelay));
+      }
     </script>
   </body>
 </html>

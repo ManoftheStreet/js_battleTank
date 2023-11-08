@@ -5,18 +5,29 @@ function getRandomValue(min, max) {
 // 계속 실행될 함수
 function Update() {
   if (!isGameOver) {
-    //moveEnemy(speed);
+    // 모든 적들을 순회하며 플레이어와의 충돌을 체크합니다.
+    $(".enemy").each(function () {
+      if (onCollisionEnter(player, $(this))) {
+        gameOver();
+      }
+    });
 
-    if (onCollisionEnter(player, enemy)) {
-      isGameOver = true;
-
-      // 게임오버 화면 표시
-      $("#gameOverScene").css("visibility", "visible");
-    }
+    // 모든 적의 포탄들을 순회하며 플레이어와의 충돌을 체크합니다.
+    $(".enemyBullet").each(function () {
+      if (onCollisionEnter(player, $(this))) {
+        gameOver();
+      }
+    });
   }
 }
 // 60프레임짜리 게임
 setInterval(Update, 1000 / 60);
+
+function gameOver() {
+  isGameOver = true;
+  // 게임오버 화면 표시
+  $("#gameOverScene").css("visibility", "visible");
+}
 
 //플레이어 이동
 function moveRight() {
@@ -60,6 +71,7 @@ function moveDown() {
     player.css({ top: "+=" + playerSpeed + "px" });
   }
 }
+
 //총알 발사
 function spawnBullet() {
   const currentTime = Date.now();
@@ -69,12 +81,9 @@ function spawnBullet() {
   const bullet = $('<div class="bullet"></div>');
   const boom = $('<div class="boom"></div>');
   const playerPos = player.position();
+
   const playerWidth = player.width();
   const playerHeight = player.height();
-  let bulletStartPosition = {
-    left: playerPos.left + playerWidth / 2 - bullet.width() / 2,
-    top: playerPos.top + playerHeight / 2 - bullet.height() / 2,
-  };
 
   // 탱크의 중앙에서 발사되도록 조정
   bullet.css({
@@ -236,13 +245,14 @@ function gameReset() {
   jumpCnt = 0;
   speed = 3;
 
-  player.css({ bottom: "10px" });
+  player.css({ bottom: "400px", left: "400px" });
   enemy.css({ right: "-20px" });
   stage.css({ "background-color": "aqua" });
 
   // 게임오버 화면 없애기
   $("#gameOverScene").css({ visibility: "hidden" });
 }
+
 
 $(document).keydown(function (event) {
   switch (event.key) {

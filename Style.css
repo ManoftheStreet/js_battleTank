@@ -14,8 +14,8 @@
     #player {
       position: absolute;
       width: 60px;
-      bottom: 10px;
-      left: 10px;
+      bottom: 400px;
+      left: 400px;
     }
 
     #gameOverScene {
@@ -39,10 +39,21 @@
     .enemy {
       position: absolute;
       width: 60px;
+      height: 70px;
       bottom: 10px;
       right: 10px;
+      background-image: url("00.IMG/Tank.png");
+      background-size: cover;
       filter: hue-rotate(180deg) brightness(100%) saturate(100%);
       /* 이 값들은 예시이며, 실제로 원하는 색에 따라 조정이 필요할 수 있습니다. */
+    }
+
+    .enemyBullet {
+      position: absolute;
+      width: 40px;
+      height: 8px;
+      background-image: url("00.IMG/bullet.png");
+      background-size: cover;
     }
 
     .bullet {
@@ -53,13 +64,15 @@
       background-size: cover;
     }
 
-    .boom{
+
+
+    .boom {
       position: absolute;
-        width: 96px;
-        /* 폭발 이미지의 실제 크기에 맞게 조정하세요 */
-        height: 96px;
-        /* 폭발 이미지의 실제 크기에 맞게 조정하세요 */
-        background-image: url('00.IMG/explosion.gif');
-        background-size: cover;
+      width: 96px;
+      /* 폭발 이미지의 실제 크기에 맞게 조정하세요 */
+      height: 96px;
+      /* 폭발 이미지의 실제 크기에 맞게 조정하세요 */
+      background-image: url('00.IMG/explosion.gif');
+      background-size: cover;
 
     }
