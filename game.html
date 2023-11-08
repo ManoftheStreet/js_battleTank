@@ -1,95 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
 
-    <!-- jquery cdn -->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.js"
-      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-      crossorigin="anonymous"
-    ></script>
-    <script src="Function.js"></script>
-    <link rel="stylesheet" href="Style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
 
-  <body>
-    <!-- div#stage>img#player -->
+  <!-- jquery cdn -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+  <script src="Function.js"></script>
+  <link rel="stylesheet" href="Style.css" />
+</head>
 
-    <div id="stage">
-      <div id="introScene">
-        <audio id="introMusic" autoplay loop preload="auto">
-          <source src="01.music/Intro.mp3" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-        <audio id="ingameMusic" loop>
-          <source src="01.music/Ingame.mp3" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-        <audio id="endMusic">
-          <source src="01.music/end.mp3" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-        <audio id="shootSound">
-          <source src="01.music/shoot.mp3" type="audio/mpeg" />
-          Your browser does not support the audio element.</audio
-        ><audio id="boomSound">
-          <source src="01.music/boom.mp3" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-        <h1 id="title">탱크 게임</h1>
-        <!-- 여기서 '탱크 게임' 문구에 id="title"을 추가했습니다. -->
-        <button id="startButton" onclick="startGame()">시작하기</button>
-        <!-- 버튼에 id="startButton"을 추가했습니다. -->
-      </div>
-      <div id="gameOverScene">
-        <br />Game Over
-        <br />
-        <button onclick="gameReset()">재시작</button>
-      </div>
+<body>
+  <!-- div#stage>img#player -->
+
+  <div id="stage">
+    <div id="introScene">
+      <audio id="introMusic" loop preload="auto">
+        <source src="01.music/Intro.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="ingameMusic" loop>
+        <source src="01.music/Ingame.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="endMusic">
+        <source src="01.music/end.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="shootSound">
+        <source src="01.music/shoot.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio><audio id="boomSound">
+        <source src="01.music/boom.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <h1 id="title">Battle Tank</h1>
+      <h1 id="tutorial">이동: </h1>
+      <h1 id="tutorial2">공격: 스페이스 바</h1>
+      <img id="key" src="00.IMG/key.png" alt="Key Controls">
+      <button id="startButton" onclick="startGame()">Start!</button>
+
     </div>
+    <div id="gameOverScene">
+      <h1 id="title2">Game Over</h1>
+      
+      <button id="reStartButton" onclick="gameReset()">ReStart!</button>
+    </div>
+  </div>
 
-    <script>
-      const stage = $("#stage");
-      const enemy = $(".enemy");
+  <script>
+    
+    const stage = $("#stage");
+    const enemy = $(".enemy");
 
-      let speed = 3;
-      let playerSpeed = 20;
-      let bulletSpeed = 20;
-      let lastBulletTime = 0;
-      let fireRate = 1000;
+    let speed = 3;
+    let playerSpeed = 20;
+    let bulletSpeed = 20;
+    let lastBulletTime = 0;
+    let fireRate = 1000;
 
-      let playerDirection = "up";
+    let playerDirection = "up";
 
-      let enmyCnt = 0;
-      let enemyMax = 10;
+    let enmyCnt = 0;
+    let enemyMax = 10;
 
-      $(document).keydown(function (event) {
-        console.log(event.key);
+    $(document).keydown(function (event) {
+      console.log(event.key);
 
-        switch (event.key) {
-          case "d":
-          case "ArrowRight":
-            moveRight();
-            break;
-            d;
-          case "a":
-          case "ArrowLeft":
-            moveLeft();
-            break;
-          case "w":
-          case "ArrowUp":
-            moveUp();
-            break;
-          case "s":
-          case "ArrowDown":
-            moveDown();
-            break;
-          default:
-        }
-      });
-    </script>
-  </body>
+      switch (event.key) {
+        case "d":
+        case "ArrowRight":
+          moveRight();
+          break;
+          d;
+        case "a":
+        case "ArrowLeft":
+          moveLeft();
+          break;
+        case "w":
+        case "ArrowUp":
+          moveUp();
+          break;
+        case "s":
+        case "ArrowDown":
+          moveDown();
+          break;
+        default:
+      }
+    });
+  </script>
+</body>
+
 </html>

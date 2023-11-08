@@ -1,3 +1,24 @@
+document.addEventListener('DOMContentLoaded', function () {
+  var introMusic = document.getElementById('introMusic'); // 오디오 요소를 가져옵니다.
+  var stage = document.getElementById('stage'); // stage 요소를 가져옵니다.
+  var startButton = document.getElementById('startButton'); // 시작 버튼 요소를 가져옵니다.
+
+  // 초기에는 시작 버튼을 비활성화합니다.
+  startButton.disabled = true;
+
+  // 음악을 재생하고 버튼을 활성화하는 함수를 정의합니다.
+  function playMusicAndShowButton() {
+    introMusic.play();
+    $("#startButton").animate({ opacity: 1 }, 7000); // 2초 동안 opacity를 0에서 1로 변경
+    startButton.disabled = false;
+    // 이벤트 리스너를 제거합니다.
+    stage.removeEventListener('click', playMusicAndShowButton);
+  }
+
+  // stage에 클릭 이벤트 리스너를 추가합니다.
+  stage.addEventListener('click', playMusicAndShowButton);
+});
+
 var gameInterval;
 var spawnEnemyInterval;
 var enemyDirectionInterval;
@@ -26,6 +47,7 @@ function startGame() {
   if (gameInterval) {
     clearInterval(gameInterval);
   }
+
   gameInterval = setInterval(Update, 1000 / 60);
   spawnEnemyInterval = setInterval(spawnEnemy, spawnTime);
   enemyDirectionInterval = setInterval(function () {
@@ -33,6 +55,7 @@ function startGame() {
       setNewDirection($(this));
     });
   }, turnTime);
+
   if ($("#player").length === 0) {
     var playerImg = $("<img>")
       .attr({
@@ -64,15 +87,16 @@ function Update() {
       var enemy = $(this);
 
       // 플레이어와 적의 충돌 검사
-      if (onCollisionEnter(player, enemy)) {
+      if (player && onCollisionEnter(player, enemy)) {
         player.remove();
+        player = null;
+        gameOver();
         var boomSound = document.getElementById("boomSound");
         if (boomSound) {
-          boomSound.currentTime = 0; // 재생 위치를 시작으로 재설정합니다.
           boomSound.play(); // 오디오를 재생합니다.
         }
         createExplosion(player.position().left, player.position().top);
-        gameOver();
+        
         return false; // 충돌이 발생하면 더 이상의 검사가 불필요하므로 반복을 중단합니다.
       }
 
@@ -87,7 +111,6 @@ function Update() {
           enmyCnt--;
           var boomSound = document.getElementById("boomSound");
           if (boomSound) {
-            boomSound.currentTime = 0; // 재생 위치를 시작으로 재설정합니다.
             boomSound.play(); // 오디오를 재생합니다.
           }
           //updateScore(); // 점수 업데이트
@@ -124,11 +147,7 @@ function gameReset() {
   // 게임오버 화면 없애기
   $("#gameOverScene").css({ visibility: "hidden" });
   $("#introScene").show();
-  var endMusic = document.getElementById("endMusic");
-  if (endMusic) {
-    endMusic.pause();
-    endMusic.currentTime = 0;
-  }
+
   var introMusic = document.getElementById("introMusic");
   if (introMusic) {
     introMusic.play();
@@ -492,10 +511,11 @@ function fireBullet(enemy) {
   }
 
   function moveBullet() {
-    if (onCollisionEnter(player, enemyBullet)) {
+    if (player && onCollisionEnter(player, enemyBullet)) {
       createExplosion(enemyBullet.position().left, enemyBullet.position().top);
       enemyBullet.remove(); // 충돌한 총알 제거
       player.remove();
+      player = null;
       gameOver();
       return; // 추가 이동을 중단
     }
