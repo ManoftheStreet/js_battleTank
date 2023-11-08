@@ -4,6 +4,7 @@ var enemyDirectionInterval;
 let turnTime = 5000;
 let spawnTime = 2000;
 let isGameOver = false;
+//#sound
 
 //랜덤값 찾기
 function getRandomValue(min, max) {
@@ -11,7 +12,17 @@ function getRandomValue(min, max) {
 }
 
 function startGame() {
+  var introMusic = document.getElementById("introMusic");
+  if (introMusic) {
+    introMusic.pause();
+    introMusic.currentTime = 0;
+  }
+
   $("#introScene").hide();
+  var ingameMusic = document.getElementById("ingameMusic");
+  if (ingameMusic) {
+    ingameMusic.play();
+  }
   if (gameInterval) {
     clearInterval(gameInterval);
   }
@@ -55,6 +66,12 @@ function Update() {
       // 플레이어와 적의 충돌 검사
       if (onCollisionEnter(player, enemy)) {
         player.remove();
+        var boomSound = document.getElementById("boomSound");
+        if (boomSound) {
+          boomSound.currentTime = 0; // 재생 위치를 시작으로 재설정합니다.
+          boomSound.play(); // 오디오를 재생합니다.
+        }
+        createExplosion(player.position().left, player.position().top);
         gameOver();
         return false; // 충돌이 발생하면 더 이상의 검사가 불필요하므로 반복을 중단합니다.
       }
@@ -68,6 +85,11 @@ function Update() {
           enemy.remove(); // 적 제거
           bullet.remove(); // 총알 제거
           enmyCnt--;
+          var boomSound = document.getElementById("boomSound");
+          if (boomSound) {
+            boomSound.currentTime = 0; // 재생 위치를 시작으로 재설정합니다.
+            boomSound.play(); // 오디오를 재생합니다.
+          }
           //updateScore(); // 점수 업데이트
           return false; // 적과 충돌한 총알은 더 이상의 검사가 불필요하므로 반복을 중단합니다.
         }
@@ -77,6 +99,15 @@ function Update() {
 }
 
 function gameOver() {
+  var ingameMusic = document.getElementById("ingameMusic");
+  if (ingameMusic) {
+    ingameMusic.pause();
+    ingameMusic.currentTime = 0;
+  }
+  var endMusic = document.getElementById("endMusic");
+  if (endMusic) {
+    endMusic.play();
+  }
   isGameOver = true;
   clearInterval(gameInterval);
   clearInterval(spawnEnemyInterval);
@@ -93,6 +124,15 @@ function gameReset() {
   // 게임오버 화면 없애기
   $("#gameOverScene").css({ visibility: "hidden" });
   $("#introScene").show();
+  var endMusic = document.getElementById("endMusic");
+  if (endMusic) {
+    endMusic.pause();
+    endMusic.currentTime = 0;
+  }
+  var introMusic = document.getElementById("introMusic");
+  if (introMusic) {
+    introMusic.play();
+  }
 }
 
 //플레이어 이동
@@ -143,6 +183,11 @@ function spawnBullet() {
   const currentTime = Date.now();
   if (currentTime - lastBulletTime < fireRate) {
     return; // 1초가 지나지 않았다면 새 총알을 발사하지 않고 함수를 종료합니다.
+  }
+  var shootSound = document.getElementById("shootSound");
+  if (shootSound) {
+    shootSound.currentTime = 0; // 재생 위치를 시작으로 재설정합니다.
+    shootSound.play(); // 오디오를 재생합니다.
   }
   const bullet = $('<div class="bullet"></div>');
   const boom = $('<div class="boom"></div>');
