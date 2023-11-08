@@ -18,6 +18,11 @@
       left: 0;
       right: 0;
       bottom: 0;
+      background-image: url('00.IMG/IntroTank.gif');
+      /* 이미지 경로를 설정하세요 */
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
       background-color: rgba(0, 0, 0, 0.75);
       /* 약간의 투명도를 추가하여 배경이 보이게 함 */
       color: white;
@@ -28,6 +33,24 @@
       text-align: center;
       z-index: 10;
       /* 다른 요소들 위에 표시되도록 z-index 설정 */
+    }
+
+    #title {
+      font-size: 2em;
+      /* 제목의 크기를 키웁니다. */
+      margin-bottom: 0.5em;
+      /* 버튼과의 간격을 조정합니다. */
+      /* 필요하다면 여기에 더 많은 스타일을 추가할 수 있습니다. */
+    }
+
+    #startButton {
+      padding: 10px 20px;
+      /* 버튼의 안쪽 여백을 증가시켜 크기를 키웁니다. */
+      font-size: 1.5em;
+      /* 글씨 크기를 키웁니다. */
+      cursor: pointer;
+      /* 마우스 오버 시 커서를 포인터로 변경합니다. */
+      /* 필요하다면 여기에 더 많은 스타일을 추가할 수 있습니다. */
     }
 
     #gameOverScene {

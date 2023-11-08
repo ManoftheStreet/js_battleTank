@@ -20,7 +20,7 @@
 
     <div id="stage">
       <div id="introScene">
-        <audio id="introMusic" autoplay loop>
+        <audio id="introMusic" autoplay loop preload="auto">
           <source src="01.music/Intro.mp3" type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
@@ -34,14 +34,15 @@
         </audio>
         <audio id="shootSound">
           <source src="01.music/shoot.mp3" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio><audio id="boomSound">
+          Your browser does not support the audio element.</audio
+        ><audio id="boomSound">
           <source src="01.music/boom.mp3" type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
-        <br />탱크 게임
-        <br />
-        <button onclick="startGame()">시작하기</button>
+        <h1 id="title">탱크 게임</h1>
+        <!-- 여기서 '탱크 게임' 문구에 id="title"을 추가했습니다. -->
+        <button id="startButton" onclick="startGame()">시작하기</button>
+        <!-- 버튼에 id="startButton"을 추가했습니다. -->
       </div>
       <div id="gameOverScene">
         <br />Game Over
