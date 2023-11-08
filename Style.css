@@ -11,11 +11,23 @@
       background-repeat: no-repeat;
     }
 
-    #player {
+    #introScene {
+      visibility: visible;
       position: absolute;
-      width: 60px;
-      bottom: 400px;
-      left: 400px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.75);
+      /* 약간의 투명도를 추가하여 배경이 보이게 함 */
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      z-index: 10;
+      /* 다른 요소들 위에 표시되도록 z-index 설정 */
     }
 
     #gameOverScene {
@@ -35,6 +47,15 @@
       /* 이 부분을 추가합니다 */
       text-align: center;
     }
+
+    #player {
+      position: absolute;
+      width: 60px;
+      bottom: 400px;
+      left: 400px;
+    }
+
+
 
     .enemy {
       position: absolute;
