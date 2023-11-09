@@ -1,7 +1,7 @@
-document.addEventListener('DOMContentLoaded', function () {
-  var introMusic = document.getElementById('introMusic'); // 오디오 요소를 가져옵니다.
-  var stage = document.getElementById('stage'); // stage 요소를 가져옵니다.
-  var startButton = document.getElementById('startButton'); // 시작 버튼 요소를 가져옵니다.
+document.addEventListener("DOMContentLoaded", function () {
+  var introMusic = document.getElementById("introMusic"); // 오디오 요소를 가져옵니다.
+  var stage = document.getElementById("stage"); // stage 요소를 가져옵니다.
+  var startButton = document.getElementById("startButton"); // 시작 버튼 요소를 가져옵니다.
 
   // 초기에는 시작 버튼을 비활성화합니다.
   startButton.disabled = true;
@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', function () {
     $("#startButton").animate({ opacity: 1 }, 7000); // 2초 동안 opacity를 0에서 1로 변경
     startButton.disabled = false;
     // 이벤트 리스너를 제거합니다.
-    stage.removeEventListener('click', playMusicAndShowButton);
+    stage.removeEventListener("click", playMusicAndShowButton);
   }
 
   // stage에 클릭 이벤트 리스너를 추가합니다.
-  stage.addEventListener('click', playMusicAndShowButton);
+  stage.addEventListener("click", playMusicAndShowButton);
 });
 
 var gameInterval;
@@ -96,7 +96,7 @@ function Update() {
           boomSound.play(); // 오디오를 재생합니다.
         }
         createExplosion(player.position().left, player.position().top);
-        
+
         return false; // 충돌이 발생하면 더 이상의 검사가 불필요하므로 반복을 중단합니다.
       }
 
@@ -513,6 +513,10 @@ function fireBullet(enemy) {
   function moveBullet() {
     if (player && onCollisionEnter(player, enemyBullet)) {
       createExplosion(enemyBullet.position().left, enemyBullet.position().top);
+      var boomSound = document.getElementById("boomSound");
+      if (boomSound) {
+        boomSound.play(); // 오디오를 재생합니다.
+      }
       enemyBullet.remove(); // 충돌한 총알 제거
       player.remove();
       player = null;
