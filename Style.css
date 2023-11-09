@@ -17,7 +17,7 @@
   background-position: center;
   background-repeat: no-repeat;
   font-family: 'NeoDunggeunmoPro-Regular', sans-serif;
-  
+
 }
 
 #introScene {
@@ -48,64 +48,73 @@
 #title {
   font-size: 7em;
   position: relative;
-  top: -250px; /* 필요에 따라 값 조정 */
+  top: -250px;
+  /* 필요에 따라 값 조정 */
   margin-bottom: 0.5em;
   -webkit-text-stroke: 0.5px black;
-  color:antiquewhite
+  color: antiquewhite
 }
+
 #title2 {
   font-size: 7em;
   position: relative;
-  top: -250px; /* 필요에 따라 값 조정 */
+  top: -250px;
+  /* 필요에 따라 값 조정 */
   margin-bottom: 0.5em;
   -webkit-text-stroke: 0.5px black;
-  color:antiquewhite
+  color: antiquewhite
 }
 
-#tutorial{
+#tutorial {
   position: absolute;
-  top: 650px; /* 필요에 따라 값 조정 */
+  top: 650px;
+  /* 필요에 따라 값 조정 */
   left: 50px;
   font-weight: bold;
-  color:antiquewhite
+  color: antiquewhite
 }
-#tutorial2{
+
+#tutorial2 {
   position: absolute;
-  top: 650px; /* 필요에 따라 값 조정 */
+  top: 650px;
+  /* 필요에 따라 값 조정 */
   left: 500px;
   font-weight: bold;
-  color:antiquewhite
+  color: antiquewhite
 }
 
 #tutorial3 {
   position: absolute;
-  top: 720px;
-  /* 필요에 따라 값 조정 */
-  left: 617px;
-  font-weight: bold;
-  color: white
+  bottom: calc(3%);
+  /* 뷰포트 높이의 10% + 한 줄의 높이 만큼 떨어진 곳에 위치 */
+  right: 2%;
+  color: white;
+  font-size: 20px;
 }
 
 #tutorial4 {
   position: absolute;
-  top: 750px;
-  /* 필요에 따라 값 조정 */
-  left: 320px;
-  font-weight: bold;
-  color: white
+  bottom: calc(0%);
+  /* 뷰포트 높이의 10% + 한 줄의 높이 만큼 떨어진 곳에 위치 */
+  right: 2%;
+  /* 왼쪽에서부터의 간격 */
+  color: white;
+  font-size: 20px;
 }
 
-#key{
+#key {
   width: 200px;
   position: absolute;
-  top: 600px; /* 필요에 따라 값 조정 */
+  top: 600px;
+  /* 필요에 따라 값 조정 */
   left: 150px;
 }
 
 
 #startButton {
   position: absolute;
-  top: 450px; /* 필요에 따라 값 조정 */
+  top: 450px;
+  /* 필요에 따라 값 조정 */
   padding: 10px 20px;
   /* 버튼의 안쪽 여백을 증가시켜 크기를 키웁니다. */
   font-size: 1.5em;
@@ -117,7 +126,8 @@
 
 #reStartButton {
   position: absolute;
-  top: 450px; /* 필요에 따라 값 조정 */
+  top: 450px;
+  /* 필요에 따라 값 조정 */
   padding: 10px 20px;
   /* 버튼의 안쪽 여백을 증가시켜 크기를 키웁니다. */
   font-size: 1.5em;
