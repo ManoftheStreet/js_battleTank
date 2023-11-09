@@ -72,9 +72,27 @@
 #tutorial2{
   position: absolute;
   top: 650px; /* 필요에 따라 값 조정 */
-  left: 400px;
+  left: 500px;
   font-weight: bold;
   color:antiquewhite
+}
+
+#tutorial3 {
+  position: absolute;
+  top: 720px;
+  /* 필요에 따라 값 조정 */
+  left: 617px;
+  font-weight: bold;
+  color: white
+}
+
+#tutorial4 {
+  position: absolute;
+  top: 750px;
+  /* 필요에 따라 값 조정 */
+  left: 320px;
+  font-weight: bold;
+  color: white
 }
 
 #key{
