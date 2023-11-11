@@ -22,8 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 var gameInterval;
 var spawnEnemyInterval;
 var enemyDirectionInterval;
-let turnTime = 5000;
-let spawnTime = 2000;
+
 let isGameOver = false;
 //#sound
 
@@ -48,6 +47,8 @@ function startGame() {
     clearInterval(gameInterval);
   }
 
+
+  updateEnemyCount(enemyMaxSpawnCnt);
   gameInterval = setInterval(Update, 1000 / 60);
   spawnEnemyInterval = setInterval(spawnEnemy, spawnTime);
   enemyDirectionInterval = setInterval(function () {
@@ -109,6 +110,8 @@ function Update() {
           enemy.remove(); // 적 제거
           bullet.remove(); // 총알 제거
           enmyCnt--;
+          killCnt++;
+          updateEnemyCount(enemyMaxSpawnCnt);
           var boomSound = document.getElementById("boomSound");
           if (boomSound) {
             boomSound.play(); // 오디오를 재생합니다.
@@ -131,6 +134,8 @@ function gameOver() {
   if (endMusic) {
     endMusic.play();
   }
+  $(".enemy").remove();
+  $(".bullet").remove();
   isGameOver = true;
   clearInterval(gameInterval);
   clearInterval(spawnEnemyInterval);
@@ -141,12 +146,14 @@ function gameOver() {
 
 function gameReset() {
   isGameOver = false;
-  $(".enemy").remove();
-  $(".bullet").remove();
-
   // 게임오버 화면 없애기
   $("#gameOverScene").css({ visibility: "hidden" });
+  $("#gameWinScene").css({ visibility: "hidden" });
   $("#introScene").show();
+
+  enmyCnt = 0;
+  enemySpawnCnt =0;
+  killCnt=0;
 
   var introMusic = document.getElementById("introMusic");
   if (introMusic) {
@@ -365,9 +372,45 @@ function setNewDirection(enemy) {
   enemy.data("direction", direction);
 }
 
+// 적 탱크를 생성하고 무작위로 위치를 지정하는 함수
+function spawnEnemy() {
+  if (enmyCnt >= enemyMax || enemyMaxSpawnCnt<=enemySpawnCnt) {
+    // 이미 5마리의 적이 활성화되어 있으면 새로운 적을 생성하지 않음
+    return;
+  }
+  const enemy = $('<img src="00.IMG/Tank.png" class="enemy">');
+
+  // 4모서리 중 하나를 랜덤으로 선택하여 적을 배치합니다.
+  const corner = getRandomValue(1, 4);
+  let position = {};
+
+  switch (corner) {
+    case 1: // 왼쪽 위
+      position = { top: "0px", left: "0px" };
+      break;
+    case 2: // 오른쪽 위
+      position = { top: "0px", right: "0px" };
+      break;
+    case 3: // 왼쪽 아래
+      position = { bottom: "0px", left: "0px" };
+      break;
+    case 4: // 오른쪽 아래
+      position = { bottom: "0px", right: "0px" };
+      break;
+  }
+  setNewDirection(enemy);
+  enemy.css(position);
+  stage.append(enemy);
+  enmyCnt++;
+  enemySpawnCnt++;
+  
+  moveEnemy(enemy);
+  setRandomFiring(enemy);
+}
+
+//적이동
 function moveEnemy(enemy) {
-  const stepSize = 40; // 한 번에 이동할 픽셀 크기
-  const moveTime = 500;
+
   // 방향을 유지하는 시간 (ms)
   let posX = parseInt(enemy.css("left"));
   let posY = parseInt(enemy.css("top"));
@@ -408,40 +451,6 @@ function moveEnemy(enemy) {
   setTimeout(function () {
     moveEnemy(enemy);
   }, moveTime);
-}
-
-// 적 탱크를 생성하고 무작위로 위치를 지정하는 함수
-function spawnEnemy() {
-  if (enmyCnt >= enemyMax) {
-    // 이미 5마리의 적이 활성화되어 있으면 새로운 적을 생성하지 않음
-    return;
-  }
-  const enemy = $('<img src="00.IMG/Tank.png" class="enemy">');
-
-  // 4모서리 중 하나를 랜덤으로 선택하여 적을 배치합니다.
-  const corner = getRandomValue(1, 4);
-  let position = {};
-
-  switch (corner) {
-    case 1: // 왼쪽 위
-      position = { top: "0px", left: "0px" };
-      break;
-    case 2: // 오른쪽 위
-      position = { top: "0px", right: "0px" };
-      break;
-    case 3: // 왼쪽 아래
-      position = { bottom: "0px", left: "0px" };
-      break;
-    case 4: // 오른쪽 아래
-      position = { bottom: "0px", right: "0px" };
-      break;
-  }
-  setNewDirection(enemy);
-  enemy.css(position);
-  stage.append(enemy);
-  enmyCnt++;
-  moveEnemy(enemy);
-  setRandomFiring(enemy);
 }
 
 //적 공격
@@ -565,12 +574,41 @@ function createExplosion(x, y) {
 }
 
 function setRandomFiring(enemy) {
-  const minFireDelay = 1500;
-  const maxFireDelay = 3000;
+
   setTimeout(function () {
     if (stage.has(enemy).length) {
       fireBullet(enemy);
       setRandomFiring(enemy); // 다음 포탄 발사를 위한 랜덤 시간 설정
     }
   }, getRandomValue(minFireDelay, maxFireDelay));
+}
+
+//적 남은수 계산
+function updateEnemyCount(enemyMaxSpawnCnt) {
+  let remnent=enemyMaxSpawnCnt - killCnt;
+  $('#enemiesLeft').text(remnent);
+  if(remnent===0)
+  {
+    GameWin();
+  }
+}
+
+function GameWin(){
+  var ingameMusic = document.getElementById("ingameMusic");
+  if (ingameMusic) {
+    ingameMusic.pause();
+    ingameMusic.currentTime = 0;
+  }
+  var winSound = document.getElementById("winSound");
+  if (winSound) {
+    winSound.play();
+  }
+  $(".enemy").remove();
+  $(".bullet").remove();
+  isGameOver = true;
+  clearInterval(gameInterval);
+  clearInterval(spawnEnemyInterval);
+  clearInterval(enemyDirectionInterval);
+  // 게임오버 화면 표시
+  $("#gameWinScene").css("visibility", "visible");
 }

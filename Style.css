@@ -156,6 +156,25 @@
   z-index: 9;
 }
 
+#gameWinScene {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  color: white;
+  font-family: 'NeoDunggeunmoPro-Regular', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* 이 부분을 추가합니다 */
+  text-align: center;
+  z-index: 9;
+}
+
 #player {
   position: absolute;
   width: 60px;
@@ -193,8 +212,6 @@
   background-size: cover;
 }
 
-
-
 .boom {
   position: absolute;
   width: 96px;
@@ -204,4 +221,22 @@
   background-image: url('00.IMG/explosion.gif');
   background-size: cover;
 
+}
+
+#scoreBoard {
+  position: absolute; /* 절대 위치 설정 */
+  top: 30%; /* 스테이지 상단 바깥으로 위치 조정 */
+  left: 0; /* 왼쪽에서 시작 */
+  width: 100%; /* 스테이지의 너비와 동일하게 설정 */
+  height: 50px; /* 높이는 좁게 설정 */
+  background-color: transparent; /* 스코어 보드 배경색, 원하는 색상으로 변경 가능 */
+  text-align: center; /* 텍스트를 가운데 정렬 */
+  line-height: 50px; /* 텍스트를 수직 가운데 정렬하기 위해 line-height를 높이와 동일하게 설정 */
+  color: antiquewhite; /* 스코어 보드 텍스트 색상 */
+  font-size: 60px; /* 텍스트 크기 */
+
+}
+
+#enemiesLeft {
+  font-weight: bold; /* 남은 적의 수를 강조 */
 }
