@@ -5,6 +5,21 @@
   font-style: normal;
 }
 
+body {
+  background-color: black;
+  /* 배경색을 검은색으로 설정 */
+  display: flex;
+  /* Flexbox 레이아웃 사용 */
+  justify-content: center;
+  /* 가로 방향으로 중앙 정렬 */
+  align-items: center;
+  /* 세로 방향으로 중앙 정렬 */
+  height: 100vh;
+  /* 뷰포트 높이를 전체 화면으로 설정 */
+  margin: 0;
+  /* 기본 마진 제거 */
+}
+
 #stage {
   position: relative;
   width: 800px;
