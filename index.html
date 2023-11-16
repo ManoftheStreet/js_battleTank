@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BattleTank</title>
 
-    <!-- jquery cdn -->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.js"
-      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-      crossorigin="anonymous"
-    ></script>
-    <script src="Function.js"></script>
-    <link rel="stylesheet" href="Style.css" />
-    <link rel="shortcut icon" href="#" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BattleTank</title>
 
-  <body>
-    <!-- div#stage>img#player -->
+  <!-- jquery cdn -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+  <script src="Function.js"></script>
+  <link rel="stylesheet" href="Style.css" />
+  <link rel="shortcut icon" href="#" />
+</head>
 
     <div id="stage">
       <div id="introScene">
@@ -54,49 +49,111 @@
       <div id="gameOverScene">
         <h1 id="title2">Game Over</h1>
 
-        <button id="reStartButton" onclick="gameReset()">ReStart!</button>
-      </div>
+  <div id="stage">
+    <div id="introScene">
+      <audio id="introMusic" loop preload="auto">
+        <source src="01.music/Intro.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="ingameMusic" loop>
+        <source src="https://github.com/ManoftheStreet/js_battleTank/raw/main/01.music/InGame.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="endMusic">
+        <source src="01.music/end.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="shootSound">
+        <source src="01.music/shoot.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="boomSound">
+        <source src="01.music/boom.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <audio id="winSound">
+        <source src="01.music/win.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <h1 id="title">Battle Tank</h1>
+      <h1 id="tutorial">Move:</h1>
+      <h1 id="tutorial2">Fire: Space Bar</h1>
+      <h1 id="tutorial3">Made By Geon</h1>
+      <h1 id="tutorial4">https://github.com/ManoftheStreet</h1>
+      <img id="key" src="00.IMG/key.png" alt="Key Controls" />
+      <button id="startButton" onclick="startGame()">Start!</button>
+
+
+    </div>
+    <div id="scoreBoard">
+      <span id="enemyCount">Enemies Left: <span id="enemiesLeft"></span></span>
+    </div>
+    <div id="gameOverScene">
+      <h1 id="title2">Game Over</h1>
+
+      <button id="reStartButton" onclick="gameReset()">ReStart!</button>
+    </div>
+    <div id="gameWinScene">
+      <h1 id="title2">YOU WIN!</h1>
+
+      <button id="reStartButton" onclick="gameReset()">ReStart!</button>
     </div>
 
-    <script>
-      const stage = $("#stage");
-      const enemy = $(".enemy");
+  </div>
 
-      let speed = 3;
-      let playerSpeed = 20;
-      let bulletSpeed = 20;
-      let lastBulletTime = 0;
-      let fireRate = 1000;
+  <script>
+    const stage = $("#stage");
+    const enemy = $(".enemy");
+    //플레이어 스텟
+    let speed = 3;
+    let playerSpeed = 20;
+    let bulletSpeed = 20;
+    let lastBulletTime = 0;
+    let fireRate = 1500;
+    let playerDirection = "up";
 
-      let playerDirection = "up";
+    //적 스텟
+    const minFireDelay = 500;
+    const maxFireDelay = 2000;
+    let turnTime = 3000;
+    let spawnTime = 2000;
+    const stepSize = 50; // 한 번에 이동할 픽셀 크기
+    const moveTime = 400;
 
-      let enmyCnt = 0;
-      let enemyMax = 10;
+    let enmyCnt = 0;
+    let enemyMax = 10;
+    let enemySpawnCnt = 0;
 
-      $(document).keydown(function (event) {
-        console.log(event.key);
+    let enemyMaxSpawnCnt = 10;
+    let killCnt = 0;
 
-        switch (event.key) {
-          case "d":
-          case "ArrowRight":
-            moveRight();
-            break;
-            d;
-          case "a":
-          case "ArrowLeft":
-            moveLeft();
-            break;
-          case "w":
-          case "ArrowUp":
-            moveUp();
-            break;
-          case "s":
-          case "ArrowDown":
-            moveDown();
-            break;
-          default:
-        }
-      });
-    </script>
-  </body>
+
+    $(document).keydown(function (event) {
+      console.log(event.key);
+
+      switch (event.key) {
+        case "d":
+        case "ArrowRight":
+          moveRight();
+          break;
+        case "a":
+        case "ArrowLeft":
+          moveLeft();
+          break;
+        case "w":
+        case "ArrowUp":
+          moveUp();
+          break;
+        case "s":
+        case "ArrowDown":
+          moveDown();
+          break;
+        default:
+      }
+    });
+
+
+  </script>
+</body>
+
 </html>
